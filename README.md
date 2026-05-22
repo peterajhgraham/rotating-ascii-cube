@@ -1,54 +1,31 @@
 # Rotating ASCII Cube
 
-A C++ program that generates a rotating 3D cube using ASCII characters. It is designed with dynamic shading and realistic rotation based on concepts within linear algebra such as dot product, vector normalization, as well as the projection and rendering of 3D points onto a 2D screen.
-
-*Enjoy the rotating cube*!
-
-https://github.com/user-attachments/assets/06601427-6c2b-435b-ba5b-ded2195fc7b9
-
-## Directory Structure
+A real-time 3D ASCII cube renderer in C++, in ~150 lines.
 
 ```
-ASCII_Rotating_Cube/
-├── rotating_cube.cpp
-├── LICENSE
-├── README.md
-└── .gitignore
+      +--------+
+     /|       /|
+    / |      / |
+   +--------+  |
+   |  +-----|--+
+   | /      | /
+   |/       |/
+   +--------+
 ```
 
-## Prerequisites
+## The math
 
-* **C++ Compiler**
+Each frame, every cube vertex is rotated by two angles `A` and `B` using the standard rotation matrices around the X and Y axes — `(y, z) → (y·cosA − z·sinA, y·sinA + z·cosA)` and the analogous form for Y. The rotated point is then projected to the screen with a perspective divide: `x' = K·x/(z + d)`, `y' = K·y/(z + d)`, where `d` pushes the cube away from the camera so `z + d > 0`. Edges are rasterized between projected vertices with Bresenham's line algorithm. A per-pixel z-buffer storing `1/(z + d)` keeps nearer points on top — larger reciprocal wins, so back edges get correctly occluded.
 
-* **Terminal** (Unix-like systems recommended)
+## Build & run
 
-## Usage
+```
+g++ -o rotating_cube rotating_cube.cpp -lm
+./rotating_cube
+```
 
-1. **Clone**:
-   ```
-   git clone https://github.com/peterajhgraham/Rotating_ASCII_Cube.git
-   cd Rotating_ASCII_Cube
-   ```
+Best viewed in a terminal at least 160×44 characters.
 
-3. **Compile**:
-   ```
-   g++ -o rotating_cube rotating_cube.cpp -lm
-   ```
+---
 
-4. **Run**:
-   ```
-   ./rotating_cube
-   ```
-
-## Customization
-
-* **Rotation Speed:** You can modify the rotation speed by changing the values of `A += 0.02f;` and `B += 0.015f;` in the `rotating_cube.cpp` file
-   * Increase/decrease the values of A & B proportionately to avoid an uneven and distorted cube
-
-* **Cube Size:** Adjust the cube size by modifying the `cubeSize` variable
-
-## Notes
-
-* Best viewed in a terminal with at least 160x44 characters
-
-* The code uses the Bresenham's line algorithm for drawing lines between the cube's vertices
+Written for fun. The math is real.
