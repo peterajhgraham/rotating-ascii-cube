@@ -1,8 +1,8 @@
 # Rotating ASCII Cube
 
-A C++ program that generates a rotating 3D cube using ASCII characters. It is designed with dynamic shading and realistic rotation based on concepts within linear algebra such as dot product, vector normalization, as well as the projection and rendering of 3D points onto a 2D screen.
+Real-time 3D ASCII renderer in C++ with rotation matrix math, z-buffering, and projection in ~150 lines.
 
-*Enjoy the rotating cube*!
+A terminal program that spins a cube by composing X and Y rotation matrices each frame - `(y, z) -> (y*cosA - z*sinA, y*sinA + z*cosA)` and the Y equivalent - then projects the rotated vertices onto the screen with a perspective divide: `x' = K*x/(z+d)`, `y' = K*y/(z+d)`. Edges are rasterized with Bresenham's line algorithm. A per-pixel z-buffer keyed on `1/(z+d)` ensures nearer edges overwrite farther ones, giving correct occlusion.
 
 https://github.com/user-attachments/assets/06601427-6c2b-435b-ba5b-ded2195fc7b9
 
